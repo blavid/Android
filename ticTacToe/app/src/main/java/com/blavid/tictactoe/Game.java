@@ -26,7 +26,7 @@ public class Game {
     public void clearBoard() {
         for (int i = 0; i < BOARD_WIDTH; i++) {
             for (int j = 0; j < BOARD_WIDTH; j++)
-            _board[i][j] = Player.NOBODY;
+                _board[i][j] = Player.NOBODY;
         }
     }
 

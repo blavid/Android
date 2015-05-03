@@ -13,82 +13,66 @@
         android:gravity="center"
         android:textStyle="bold"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Tic Tac Toe"
+        android:text="@string/app_name"
         android:id="@+id/txtTitle" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Game"
-        android:id="@+id/btnNewGame"
-        android:layout_below="@+id/txtTitle"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:text="@string/btnNewGame"
+        android:id="@+id/btnNewGame" />
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:layout_weight="1">
-        <Button android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
+        <Button
+            style="@style/buttonStyle"
             android:id="@+id/btnTopLeft"/>
-        <Button android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
+        <Button
+            style="@style/buttonStyle"
             android:id="@+id/btnTopCenter"/>
-        <Button android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
+        <Button
+            style="@style/buttonStyle"
             android:id="@+id/btnTopRight"/>
     </LinearLayout>
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:layout_weight="1">
-        <Button android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
+        <Button
+            style="@style/buttonStyle"
             android:id="@+id/btnMiddleLeft"/>
-        <Button android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
+        <Button
+            style="@style/buttonStyle"
             android:id="@+id/btnMiddleCenter"/>
-        <Button android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
+        <Button
+            style="@style/buttonStyle"
             android:id="@+id/btnMiddleRight"/>
     </LinearLayout>
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:layout_weight="1">
-        <Button android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
+        <Button
+            style="@style/buttonStyle"
             android:id="@+id/btnBottomLeft"/>
-        <Button android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
+        <Button
+            style="@style/buttonStyle"
             android:id="@+id/btnBottomCenter"/>
-        <Button android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
+        <Button
+            style="@style/buttonStyle"
             android:id="@+id/btnBottomRight"/>
     </LinearLayout>
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:layout_weight="1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="26sp"
+            android:id="@+id/textViewWinner" />
     </LinearLayout>
 </LinearLayout>

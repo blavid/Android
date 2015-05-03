@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     Button tl,tc,tr,ml,mc,mr,bl,bc,br,newGameButton;
+    TextView txtWinner;
     final Game game = new Game();
     final Map<Button, Pair<Integer, Integer>> buttonToPair = new HashMap<>();
 
@@ -32,21 +34,23 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         bc = (Button) findViewById(R.id.btnBottomCenter);
         br = (Button) findViewById(R.id.btnBottomRight);
         newGameButton = (Button) findViewById(R.id.btnNewGame);
+        txtWinner = (TextView) findViewById(R.id.textViewWinner);
 
         buttonToPair.put(tl, new Pair<Integer, Integer>(0,0));
-        buttonToPair.put(tl, new Pair<Integer, Integer>(0,1));
-        buttonToPair.put(tl, new Pair<Integer, Integer>(0,2));
-        buttonToPair.put(tl, new Pair<Integer, Integer>(1,0));
-        buttonToPair.put(tl, new Pair<Integer, Integer>(1,1));
-        buttonToPair.put(tl, new Pair<Integer, Integer>(1,2));
-        buttonToPair.put(tl, new Pair<Integer, Integer>(2,0));
-        buttonToPair.put(tl, new Pair<Integer, Integer>(2,1));
-        buttonToPair.put(tl, new Pair<Integer, Integer>(2,2));
+        buttonToPair.put(tc, new Pair<Integer, Integer>(0,1));
+        buttonToPair.put(tr, new Pair<Integer, Integer>(0,2));
+        buttonToPair.put(ml, new Pair<Integer, Integer>(1,0));
+        buttonToPair.put(mc, new Pair<Integer, Integer>(1,1));
+        buttonToPair.put(mr, new Pair<Integer, Integer>(1,2));
+        buttonToPair.put(bl, new Pair<Integer, Integer>(2,0));
+        buttonToPair.put(bc, new Pair<Integer, Integer>(2,1));
+        buttonToPair.put(br, new Pair<Integer, Integer>(2,2));
 
         for (Button b : buttonToPair.keySet()) {
             b.setOnClickListener(this);
         }
 
+        newGameButton.setOnClickListener(this);
     }
 
 
@@ -74,37 +78,47 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Button button = (Button) v;
         if (buttonToPair.containsKey(v)) {
             v.setBackgroundColor(Color.BLUE);
             ((Button)v).setText("X");
-            button.setEnabled(false);
-            Pair<Integer, Integer> xy = buttonToPair.get(button);
+            ((Button) v).setEnabled(false);
+            Pair<Integer, Integer> xy = buttonToPair.get((Button) v);
             game.go(xy.first, xy.second, Game.Player.PLAYER);
-            if (game.checkForWinner() == Game.Player.NOBODY) {
+            Game.Player winner = game.checkForWinner();
+            if (winner == Game.Player.NOBODY) {
                 Pair<Integer, Integer> computerMoveLocation = game.computerMove();
                 Button b = pairToButtonId(computerMoveLocation);
                 b.setBackgroundColor(Color.DKGRAY);
                 b.setText("O");
                 b.setEnabled(false);
+            } else {
+                txtWinner.setText(winner.toString() + " WINS!");
+                disableBoardButtons();
             }
         }
-        else if (button == newGameButton) {
+        else if ((Button) v == newGameButton) {
             game.clearBoard();
             for (Button b : buttonToPair.keySet()) {
                 b.setEnabled(true);
                 b.setText("");
                 b.setBackgroundColor(Color.LTGRAY);
             }
+            txtWinner.setText("");
         }
     }
 
     private Button pairToButtonId(Pair<Integer, Integer> xy) {
         for (Map.Entry<Button, Pair<Integer, Integer>> entry : buttonToPair.entrySet()) {
-            if (entry.getValue() == xy) {
+            if (entry.getValue().equals(xy)) {
                 return entry.getKey();
             }
         }
         return null;
+    }
+
+    private void disableBoardButtons() {
+        for (Button b : buttonToPair.keySet()) {
+            b.setEnabled(false);
+        }
     }
 }
