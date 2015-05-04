@@ -1,6 +1,7 @@
 package com.blavid.tictactoe;
 
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Pair;
@@ -16,6 +17,7 @@ import java.util.Map;
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     Button tl,tc,tr,ml,mc,mr,bl,bc,br,newGameButton;
     TextView txtWinner;
+    MediaPlayer mp;
     final Game game = new Game();
     final Map<Button, Pair<Integer, Integer>> buttonToPair = new HashMap<>();
     int difficultyLevel;
@@ -35,6 +37,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         br = (Button) findViewById(R.id.btnBottomRight);
         newGameButton = (Button) findViewById(R.id.btnNewGame);
         txtWinner = (TextView) findViewById(R.id.textViewWinner);
+        mp = MediaPlayer.create(this, R.raw.button_click);
 
         buttonToPair.put(tl, new Pair<Integer, Integer>(0,0));
         buttonToPair.put(tc, new Pair<Integer, Integer>(0,1));
@@ -79,6 +82,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (buttonToPair.containsKey(v)) {
+            mp.start();
             playerSelectsSquare((Button) v);
             Game.Player winner = game.checkForWinner();
             if (winner == Game.Player.NOBODY) {
