@@ -16,6 +16,11 @@ public class Game {
         COMPUTER,
         NOBODY
     }
+    public enum DifficultyLevel {
+        EASY,
+        HARD,
+        IMPOSSIBLE
+    }
     public Player[][] _board;
 
     public Game() {
@@ -72,7 +77,9 @@ public class Game {
             return Player.NOBODY;
     }
 
-    protected Pair<Integer, Integer> computerMove() {
+    protected Pair<Integer, Integer> computerMove(DifficultyLevel level) {
+        Pair<Integer, Integer> xy = null;
+        // Make a list of available positions from which to choose
         Map<Integer, Pair<Integer, Integer>> availablePositions = new HashMap<>();
         int index = 0;
         for (int i = 0; i < BOARD_WIDTH; i++) {
@@ -82,8 +89,18 @@ public class Game {
                 }
             }
         }
-        int random = new Random().nextInt(availablePositions.size());
-        Pair<Integer, Integer> xy = availablePositions.get(random);
+        switch (level) {
+            case EASY:
+                int random = new Random().nextInt(availablePositions.size());
+                xy = availablePositions.get(random);
+                break;
+            case HARD:
+                break;
+            case IMPOSSIBLE:
+                break;
+            default:
+                break;
+        }
         go(xy.first, xy.second, Player.COMPUTER);
         return xy;
     }

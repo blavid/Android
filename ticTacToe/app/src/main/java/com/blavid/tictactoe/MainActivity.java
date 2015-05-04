@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +18,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     TextView txtWinner;
     final Game game = new Game();
     final Map<Button, Pair<Integer, Integer>> buttonToPair = new HashMap<>();
+    int difficultyLevel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,21 +79,17 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (buttonToPair.containsKey(v)) {
-            v.setBackgroundColor(Color.BLUE);
-            ((Button)v).setText("X");
-            ((Button) v).setEnabled(false);
-            Pair<Integer, Integer> xy = buttonToPair.get((Button) v);
-            game.go(xy.first, xy.second, Game.Player.PLAYER);
+            playerSelectsSquare((Button) v);
             Game.Player winner = game.checkForWinner();
             if (winner == Game.Player.NOBODY) {
-                Pair<Integer, Integer> computerMoveLocation = game.computerMove();
-                Button b = pairToButtonId(computerMoveLocation);
-                b.setBackgroundColor(Color.DKGRAY);
-                b.setText("O");
-                b.setEnabled(false);
-            } else {
-                txtWinner.setText(winner.toString() + " WINS!");
-                disableBoardButtons();
+                computerSelectsSquare();
+                winner = game.checkForWinner();
+                if (winner == Game.Player.COMPUTER) {
+                    declareWinner(winner);
+                }
+            }
+            else {
+                declareWinner(winner);
             }
         }
         else if ((Button) v == newGameButton) {
@@ -120,5 +116,26 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         for (Button b : buttonToPair.keySet()) {
             b.setEnabled(false);
         }
+    }
+
+    private void playerSelectsSquare(Button b) {
+        b.setBackgroundColor(Color.BLUE);
+        b.setText("X");
+        b.setEnabled(false);
+        Pair<Integer, Integer> xy = buttonToPair.get(b);
+        game.go(xy.first, xy.second, Game.Player.PLAYER);
+    }
+
+    private void computerSelectsSquare() {
+        Pair<Integer, Integer> computerMoveLocation = game.computerMove(Game.DifficultyLevel.EASY);
+        Button b = pairToButtonId(computerMoveLocation);
+        b.setBackgroundColor(Color.DKGRAY);
+        b.setText("O");
+        b.setEnabled(false);
+    }
+
+    private void declareWinner(Game.Player winner) {
+        txtWinner.setText(winner.toString() + " WINS!");
+        disableBoardButtons();
     }
 }
